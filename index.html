@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="./resources/ol.css">
+        <link rel="stylesheet" href="resources/fontawesome-all.min.css">
+        <link rel="stylesheet" type="text/css" href="resources/horsey.min.css">
+        <link rel="stylesheet" type="text/css" href="resources/ol3-search-layer.min.css">
+        <link rel="stylesheet" href="./resources/ol-layerswitcher.css">
+        <link rel="stylesheet" href="./resources/qgis2web.css">
+        <link rel="icon" type="image/x-icon" href="favicon.ico?v=1">
+        <style>
+        html, body {
+            background-color: #ffffff;
+        }
+        .ol-control > * {
+            background-color: #ffffff!important;
+            color: #124466!important;
+            border-radius: 0px;
+        }
+        .ol-attribution a, .gcd-gl-input::placeholder, .search-layer-input-search::placeholder {
+            color: #124466!important;
+        }
+        .search-layer-input-search {
+            background-color: #f8f8f8!important;
+        }
+        .ol-control > *:focus, .ol-control >*:hover {
+            background-color: rgba(248, 248, 248, 0.7)!important;
+        } 
+        .ol-control {
+            background-color: rgba(255,255,255,.4) !important;
+            padding: 2px !important;
+        } 
+        </style>
+
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>SHR Long Distance Records</title>
+    </head>
+    <body>
+        <div id="page_header">
+            <a href="https://www.scottishhillrunners.uk/LongDistance.aspx" id="SHR_logo" target="_blank" 
+                rel="noopener noreferrer"><img src="images/mainLogoLarge5_LDR.jpg" alt="Scottish Hill Runners Logo">
+            </a>
+            
+            <nav id="nav">
+                <ul>
+                    <li><a href="#" class="header_button" id="link_list">
+                        <div class="button_content">
+                            <i class="fa fa-list"></i>
+                            <span>List</span>
+                        </div>
+                    </a></li>
+                    <li><a href="#" class="header_button" id="link_map">
+                        <div class="button_content">
+                            <i class="fa fa-map-marker-alt"></i>
+                            <span>Map</span>
+                        </div>
+                    </a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <div id="map">
+            <div id="popup" class="ol-popup">
+                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                <div id="popup-content"></div>
+            </div>
+            <!-- Add canvas element -->
+            <canvas id="myCanvas" style="display:none;"></canvas> <!-- Hidden canvas -->
+        </div>
+        
+        <div id="page_list"></div>
+
+        <script src="resources/qgis2web_expressions.js"></script>
+        <script src="./resources/functions.js"></script>
+        <script src="./resources/ol.js"></script>
+        <script src="resources/horsey.min.js"></script>
+        <script src="resources/ol3-search-layer.js"></script>
+        <script src="./resources/ol-layerswitcher.js"></script>
+        <script src="data/Multidaychallenges_3.js"></script><script src="data/24hchallenges_4.js"></script><script src="data/Other_5.js"></script>
+        <script src="styles/CombinedRoutes_style.js"></script><script src="styles/Multidaychallenges_3_style.js"></script><script src="styles/24hchallenges_4_style.js"></script><script src="styles/Other_5_style.js"></script>
+        <script src="./layers/layers.js" type="text/javascript"></script> 
+        <script src="./resources/Autolinker.min.js"></script>
+        <script src="./resources/qgis2web.js"></script>
+
+        <script>
+            
+            // Ensure the DOM is fully loaded before executing the script
+            document.addEventListener('DOMContentLoaded', function () {
+                // Assuming json_Other_5, json_24hchallenges_4, and json_Multidaychallenges_3 are globally available
+                if (typeof json_Other_5 !== 'undefined' && typeof json_24hchallenges_4 !== 'undefined' && typeof json_Multidaychallenges_3 !== 'undefined') {
+                    // Call the function with the GeoJSON data objects
+                    populatePageList([json_Other_5, json_24hchallenges_4, json_Multidaychallenges_3]);
+                } else {
+                    console.error('One or more GeoJSON data objects are not defined.');
+                }
+
+                // Get elements
+                const linkList = document.getElementById('link_list');
+                const linkMap = document.getElementById('link_map');
+                const mapSection = document.getElementById('map');
+                const listSection = document.getElementById('page_list');
+
+                const canvas = document.getElementById('myCanvas');
+                const context = canvas.getContext('2d', { willReadFrequently: true });
+
+                // Handle the map/list toggle
+                linkList.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    mapSection.style.display = 'none';
+                    listSection.style.display = 'block';
+                });
+
+                linkMap.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    mapSection.style.display = 'block';
+                    listSection.style.display = 'none';
+                });
+
+                // Ensure map element is properly referenced
+                const map = document.getElementById('map'); // Ensure this reference is before using the `map` variable
+
+                // Hide page_list and show map initially
+                map.style.display = 'block';
+                listSection.style.display = 'none'; // listSection should be used here
+
+            });
+
+        </script>
+    </body>
+</html>
