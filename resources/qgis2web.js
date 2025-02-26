@@ -853,10 +853,10 @@ map.addControl(bottomAttribution);
 
 var attributionList = document.createElement('li');
 attributionList.innerHTML = `
-	FJCV &middot;
-	<a href="https://github.com/qgis2web/qgis2web">qgis2web</a> &middot;
-    <a href="https://openlayers.org/">OpenLayers</a> &middot;
-	<a href="https://qgis.org/">QGIS</a>	
+	<a href="mailto:fjcabreravaldes@gmail.com" target="_blank">fjcabreravaldes@gmail.com</a> &middot;
+	<a href="https://github.com/qgis2web/qgis2web" target="_blank">qgis2web</a> &middot;
+    <a href="https://openlayers.org/" target="_blank">OpenLayers</a> &middot;
+	<a href="https://qgis.org/" target="_blank">QGIS</a>	
 `;
 bottomAttribution.element.appendChild(attributionList);
 
