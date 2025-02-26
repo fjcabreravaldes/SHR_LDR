@@ -164,6 +164,19 @@ var SearchLayer = (function (Control) {
           select.getFeatures().push(feat);
         }
       });
+      
+        // Ensure search suggestions appear while typing on touchscreens
+          input.addEventListener('input', function() {  
+            if (horseyComponent && typeof horseyComponent.show === 'function') {  
+                horseyComponent.show();  // 🔹 Force show suggestions  
+            }
+          });
+
+          input.addEventListener('keyup', function() {  
+            if (horseyComponent && typeof horseyComponent.show === 'function') {  
+                horseyComponent.show();  
+            }
+          });
 
       // Ensure horseyComponent has a .hide() method or log it
       //if (horseyComponent && typeof horseyComponent.hide === 'function') {
