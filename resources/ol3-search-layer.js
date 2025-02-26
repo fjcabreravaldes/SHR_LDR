@@ -44,25 +44,24 @@ var SearchLayer = (function (Control) {
     var toogleHideShowInput = function() {
       var input = document.querySelector('form > .search-layer-input-search');
       if (hasClass(input, 'search-layer-collapsed')) {
-        removeClass(input, 'search-layer-collapsed');
+          removeClass(input, 'search-layer-collapsed');
+          input.focus(); // 🔹 Ensure it gains focus
       } else {
-        input.value = '';
-        addClass(input, 'search-layer-collapsed');
-        
-        // Check if horseyComponent is defined and has the .hide() method
-        //if (horseyComponent && typeof horseyComponent.hide === 'function') {
-          //console.log('Hiding horseyComponent');  // Debugging step
-          //horseyComponent.hide();
-        //} else {
-          //console.error('horseyComponent is not initialized or does not have .hide() method');
-        //}
-
-        select.getFeatures().clear();
+          input.value = '';
+          addClass(input, 'search-layer-collapsed');
+          select.getFeatures().clear();
       }
-    };
+  };
 
-    button.addEventListener('click', toogleHideShowInput, false);
-    button.addEventListener('touchstart', toogleHideShowInput, false);
+    button.addEventListener('click', function(event) {
+      event.preventDefault();  // Prevent unintended side effects
+      toogleHideShowInput();
+});
+
+    button.addEventListener('touchend', function(event) {  
+      event.preventDefault();  // Stops unwanted scrolling  
+      toogleHideShowInput();  
+});
 
     var form = document.createElement('form');
     form.setAttribute('id', 'random');
